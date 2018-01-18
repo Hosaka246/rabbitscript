@@ -59,7 +59,8 @@ adminディレクトリの名前は不正アクセス予防のため分かりに
                          ├img(777)/
                          ├img2(777)/
                          ├0thello(777)/
-                         ├NGWord.txt(644)
+                         ├LIST774.TXT(666)
+                         ├NGWord.txt(666)
                          ├SETTING.TXT(666)
                          ├config.php(666)
                          ├subject.txt(666)
