@@ -32,7 +32,7 @@ $sWORD = "";
   <td>
   <font size="+1"><b>検索＠うさ民</b></font>
   <div align="center" style="margin:1.2em 0;">
-  <form action="./search.php" method="POST">
+  <form action="../search.php" method="POST">
   <table border="0">
    <tr>
     <td>検索ワード</td>
