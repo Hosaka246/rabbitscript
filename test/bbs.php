@@ -381,10 +381,21 @@ if ($SETTING['NANASHI_CHECK'] and !$_POST['FROM']) DispError("ＥＲＲＯＲ！
 #・デフォルト名無しにするかを選べるようにする
 #・adminから名無しを編集できるようにする
 #・時、分、日替りの名無しにできるようにする
+#$set_file
 #==================================================
+//dateArrayで名無しが変わるタイミングを指定する
+//時間、日（月で一巡）、日（週で一巡）、週、月、ランダム
+$dateArray = array("none","G","w","j","W","n","RAND");
+
+$HOURMODE = $dateArray[$SETTING['SET774']];
+
 //とりあえずNanashiArrayにデフォルトを入れる
-$NanashiArray = array($SETTING['BBS_NONAME_NAME']);
+$NanashiArray = array();
 if (!$_POST['FROM']) {
+	//「なし」に設定した場合はデフォルトの名無しを使用する
+	if ($HOURMODE == "none"){
+		$_POST['FROM'] = $SETTING['BBS_NONAME_NAME'];
+	}
  	#名無しファイルを読む
 	$set_774 = $PATH . "LIST774.TXT";
 	echo $set_774;
@@ -400,11 +411,17 @@ if (!$_POST['FROM']) {
 		fclose($Nap);
 	}
 	//list774が読み込めない場合はばいばい
-	else DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：名前いれてちょ。。。");
-	//時間に応じた名無し。(G)は24時間単位の時を、ゼロをつけない形で取得する
-	$HOUR = date("j");
+	else DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：LIST774が読み取れません。。。");
+	//「ランダム」に設定した場合はランダムに表示
+	if ($HOURMODE == "RAND"){
+		$HOUR = array_rand($Nanashi_data);
+	}else{
+		//時間に応じた名無しを表示
+		$HOUR = date($HOURMODE);
+		$Nanashi = $NanashiArray[$HOUR];
+	}
 
-	$_POST['FROM'] = $NanashiArray[$HOUR];
+	$_POST['FROM'] = $nanashi;
 
 }
 #===========================
