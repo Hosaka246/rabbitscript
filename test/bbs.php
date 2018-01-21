@@ -339,7 +339,6 @@ if (preg_match("/([^\#]*)\#(.+)/", $_POST['mail'], $cap)) {
 	if (is_file("caps.cgi")) {
 		$fp = fopen("caps.cgi", "r");
 		while ($cap_data = fgets($fp, 1024)) {
-			echo 'AAAAA';
 			$cap_data = rtrim($cap_data);
 			list($id1,$name1,$pass1,$color1) = explode("<>", $cap_data);
 			if (crypt($cap[2], $pass1) == $pass1) {
@@ -398,7 +397,6 @@ if (!$_POST['FROM']) {
 	}
  	#名無しファイルを読む
 	$set_774 = $PATH . "LIST774.TXT";
-	echo $set_774;
 	if (is_file($set_774)) {
 		$Nap = fopen($set_774, "r");
 		$i = 0;
