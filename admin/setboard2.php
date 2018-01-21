@@ -146,9 +146,12 @@ $maxmsg = str_replace('<br>', "\n", THREAD_MAX_MSG);
 <th>名無し設定管理</th>
 <td><font size=2>
 <input type="radio" name="SET774" value="0"<?php if (SET774 == 0) echo "checked"?>>なし |
-<input type="radio" name="SET774" value="1"<?php if (SET774 == 1) echo "checked"?>>月 |
-<input type="radio" name="SET774" value="2"<?php if (SET774 == 2) echo "checked"?>>日 |
-<input type="radio" name="SET774" value="3"<?php if (SET774 == 3) echo "checked"?>>時 
+<input type="radio" name="SET774" value="1"<?php if (SET774 == 1) echo "checked"?>>時 |
+<input type="radio" name="SET774" value="2"<?php if (SET774 == 2) echo "checked"?>>日（1週間で一巡） |
+<input type="radio" name="SET774" value="3"<?php if (SET774 == 3) echo "checked"?>>日（1ヶ月で一巡） |<br>
+<input type="radio" name="SET774" value="4"<?php if (SET774 == 4) echo "checked"?>>週 |
+<input type="radio" name="SET774" value="5"<?php if (SET774 == 5) echo "checked"?>>月 |
+<input type="radio" name="SET774" value="6"<?php if (SET774 == 6) echo "checked"?>>ランダム 
 </font></td>
 </tr>
 <tr>
