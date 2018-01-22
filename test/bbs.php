@@ -380,13 +380,12 @@ if ($SETTING['NANASHI_CHECK'] and !$_POST['FROM']) DispError("ＥＲＲＯＲ！
 #・デフォルト名無しにするかを選べるようにする
 #・adminから名無しを編集できるようにする
 #・時、分、日替りの名無しにできるようにする
-#$set_file
 #==================================================
 //dateArrayで名無しが変わるタイミングを指定する
 //時間、日（月で一巡）、日（週で一巡）、週、月、ランダム
 $dateArray = array("none","G","w","j","W","n","RAND");
 
-$HOURMODE = $dateArray[$SETTING['SET774']];
+$HOURMODE = $dateArray[$SETTING['BBS_SET774']];
 
 //とりあえずNanashiArrayにデフォルトを入れる
 $NanashiArray = array();
@@ -394,32 +393,39 @@ if (!$_POST['FROM']) {
 	//「なし」に設定した場合はデフォルトの名無しを使用する
 	if ($HOURMODE == "none"){
 		$_POST['FROM'] = $SETTING['BBS_NONAME_NAME'];
-	}
- 	#名無しファイルを読む
-	$set_774 = $PATH . "LIST774.TXT";
-	if (is_file($set_774)) {
-		$Nap = fopen($set_774, "r");
-		$i = 0;
-		while ($Nanashi_data = fgets($Nap, 1024)){
-			//空白を取り除く
-			$Nanashi_data = rtrim($Nanashi_data);
-			array_push($NanashiArray, $Nanashi_data);
-			$i++;
-		}
-		fclose($Nap);
-	}
-	//list774が読み込めない場合はばいばい
-	else DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：LIST774が読み取れません。。。");
-	//「ランダム」に設定した場合はランダムに表示
-	if ($HOURMODE == "RAND"){
-		$HOUR = array_rand($Nanashi_data);
+		echo "<br>AAAAAAA";
+	//そうでない場合はSET774を読み込む
 	}else{
-		//時間に応じた名無しを表示
-		$HOUR = date($HOURMODE);
-		$Nanashi = $NanashiArray[$HOUR];
+		echo "<br>BBBBBBBB";
+	 	#名無しファイルを読む
+		$set_774 = $PATH . "LIST774.TXT";
+		if (is_file($set_774)) {
+			$Nap = fopen($set_774, "r");
+			$i = 0;
+			while ($Nanashi_data = fgets($Nap, 1024)){
+				//空白を取り除く
+				$Nanashi_data = rtrim($Nanashi_data);
+				array_push($NanashiArray, $Nanashi_data);
+				$i++;
+			}
+			fclose($Nap);
+		}
+		//list774が読み込めない場合はばいばい
+		else DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：LIST774が読み取れません。。。");
+		//「ランダム」に設定した場合はランダムに表示
+		if ($HOURMODE == "RAND"){
+		echo "<br>CCCCCCCC";
+			$HOUR = array_rand($Nanashi_data);
+		}else{
+		echo "<br>DDDDDDDD";
+			//それ以外の場合は時間に応じた名無しを表示
+			$HOUR = date($HOURMODE);
+			echo $HOUR;
+			$Nanashi = $NanashiArray[$HOUR];
+		}
+	$_POST['FROM'] = $Nanashi;
 	}
 
-	$_POST['FROM'] = $nanashi;
 
 }
 #===========================
@@ -428,13 +434,14 @@ if (!$_POST['FROM']) {
 #　特殊な名前を付ける
 #==================================================
 # 名無しさんを載せた後にも使いたい場合、この欄は名前チェックの後
+if ($SETTING['BBS_PLUSNAME']){
 # IDを生成
 $PLUSNAME = $SETTING['BBS_PLUSNAME'];
 # 変える前のFROMを保存
 $POSPOSFROM = $_POST['FROM'];
 
 $_POST['FROM'] = $POSPOSFROM.'＠'.$PLUSNAME;
-
+}
 #====================================================
 #　レスポンスアンカー（本文）
 #====================================================

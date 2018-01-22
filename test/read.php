@@ -273,13 +273,11 @@ TD.Type1 {color: #ffffff;text-align: left;}A.BigLine {color: #000000;text-decora
 <font size=-2><?=VERSION?></font>
 <hr>
 <p>
-<?
-	if (is_file("../$bbs/kako/$key.html")) {
+<?php if (is_file("../$bbs/kako/$key.html")) {
 		?>
 隊長! 過去ログ倉庫で、<a target="_self" href="<?="$URL/$bbs/kako/$key.html"?>">スレッド<?=$key?>.html</A> を発見しました。
 <?php
-	}
-	else {
+	}else{
 		?>
 <a target="_self" href="<?="$URL/$bbs/kako/"?>">過去ログ倉庫</A>にもありませんでした。<br>問い合わせても見つかる可能性はほとんどありません。
 <?php
