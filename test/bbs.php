@@ -393,10 +393,8 @@ if (!$_POST['FROM']) {
 	//「なし」に設定した場合はデフォルトの名無しを使用する
 	if ($HOURMODE == "none"){
 		$_POST['FROM'] = $SETTING['BBS_NONAME_NAME'];
-		echo "<br>AAAAAAA";
 	//そうでない場合はSET774を読み込む
 	}else{
-		echo "<br>BBBBBBBB";
 	 	#名無しファイルを読む
 		$set_774 = $PATH . "LIST774.TXT";
 		if (is_file($set_774)) {
@@ -414,13 +412,10 @@ if (!$_POST['FROM']) {
 		else DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：LIST774が読み取れません。。。");
 		//「ランダム」に設定した場合はランダムに表示
 		if ($HOURMODE == "RAND"){
-		echo "<br>CCCCCCCC";
 			$HOUR = array_rand($Nanashi_data);
 		}else{
-		echo "<br>DDDDDDDD";
 			//それ以外の場合は時間に応じた名無しを表示
 			$HOUR = date($HOURMODE);
-			echo $HOUR;
 			$Nanashi = $NanashiArray[$HOUR];
 		}
 	$_POST['FROM'] = $Nanashi;
