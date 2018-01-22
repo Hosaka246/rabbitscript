@@ -21,6 +21,8 @@ BBS_TITLE_LINK=$_POST[BBS_TITLE_LINK]
 BBS_BG_COLOR=$_POST[BBS_BG_COLOR]
 BBS_BG_PICTURE=$_POST[BBS_BG_PICTURE]
 BBS_NONAME_NAME=$_POST[BBS_NONAME_NAME]
+BBS_PLUSNAME=$_POST[BBS_PLUSNAME]
+BBS_SET774=$_POST[BBS_SET774]
 BBS_MAKETHREAD_COLOR=$_POST[BBS_MAKETHREAD_COLOR]
 BBS_MENU_COLOR=$_POST[BBS_MENU_COLOR]
 BBS_THREAD_COLOR=$_POST[BBS_THREAD_COLOR]
@@ -58,7 +60,6 @@ BBS_SLIP=$_POST[BBS_SLIP]
 BBS_DISP_IP=$_POST[BBS_DISP_IP]
 BBS_FORCE_ID=$_POST[BBS_FORCE_ID]
 BBS_NO_ID=$_POST[BBS_NO_ID]
-BBS_PLUSNAME=$_POST[BBS_PLUSNAME]
 
 EOF;
 	$fp = fopen($set_pass, "w");
@@ -132,6 +133,18 @@ if ($SETTING['BBS_UNICODE'] == "change") $sel_change = "selected";
 <tr>
 <th>付け足しメッセージ</th>
 <td><input type="text" size="30" name="BBS_PLUSNAME" value="<?=$SETTING['BBS_PLUSNAME']?>"></td>
+</tr>
+<tr>
+<th>名無し設定管理</th>
+<td>
+<input type="radio" name="BBS_SET774" value="0"<?php if ($SETTING['BBS_SET774'] == 0) echo "checked"?>>なし |
+<input type="radio" name="BBS_SET774" value="1"<?php if ($SETTING['BBS_SET774'] == 1) echo "checked"?>>時 |
+<input type="radio" name="BBS_SET774" value="2"<?php if ($SETTING['BBS_SET774'] == 2) echo "checked"?>>日（1週間で一巡） |
+<input type="radio" name="BBS_SET774" value="3"<?php if ($SETTING['BBS_SET774'] == 3) echo "checked"?>>日（1ヶ月で一巡） |<br>
+<input type="radio" name="BBS_SET774" value="4"<?php if ($SETTING['BBS_SET774'] == 4) echo "checked"?>>週 |
+<input type="radio" name="BBS_SET774" value="5"<?php if ($SETTING['BBS_SET774'] == 5) echo "checked"?>>月 |
+<input type="radio" name="BBS_SET774" value="6"<?php if ($SETTING['BBS_SET774'] == 6) echo "checked"?>>ランダム 
+</td>
 </tr>
 <tr>
 <th><font color=<?=$SETTING['BBS_TITLE_COLOR']?>>■</font>タイトルの色</th>
