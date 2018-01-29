@@ -46,6 +46,8 @@ require $PATH.'config.php';
 #====================================================
 #　入力情報を取得（ＰＯＳＴ）
 #====================================================
+$MANGAZ = "【広告】赤松健作品の漫画が無料で読める！無料漫画はマンガ図書館Z！<br>https://www.mangaz.com/";
+$AOZORA = "【広告】あの文豪作品が無料で読める！無料小説は青空文庫！<br>http://www.aozora.gr.jp/";
 if ($_SERVER['REQUEST_METHOD'] != 'POST') DispError ("ＥＲＲＯＲ！","ＥＲＲＯＲ：不正な投稿です！");
 if (get_magic_quotes_gpc()) $_POST = array_map("stripslashes", $_POST);
 $_POST['subject'] = str_replace('"', "&quot;", $_POST['subject']);
@@ -66,6 +68,13 @@ $_POST['MESSAGE'] = str_replace(">", "&gt;", $_POST['MESSAGE']);
 $_POST['MESSAGE'] = str_replace(array("\r\n","\r","\n"), " <br> ", $_POST['MESSAGE']);
 //本文の一部を置換したい場合この下にどうぞ。
 //$_POST['MESSAGE'] = str_replace("死ね", "氏ね", $_POST['MESSAGE']);
+//(2018/1/29)いくつか例を追加
+$_POST['MESSAGE'] = str_replace("漫画村", $MANGAZ, $_POST['MESSAGE']);
+$_POST['MESSAGE'] = str_replace("http://mangamura.org", $MANGAZ, $_POST['MESSAGE']);
+$_POST['MESSAGE'] = str_replace("https://mangamura.org", $MANGAZ, $_POST['MESSAGE']);
+$_POST['MESSAGE'] = str_replace("mangamura.org", $MANGAZ, $_POST['MESSAGE']);
+$_POST['MESSAGE'] = str_replace("フリーブックス", $AOZORA, $_POST['MESSAGE']);
+$_POST['MESSAGE'] = str_replace("Freebooks", $AOZORA, $_POST['MESSAGE']);
 # ユニコード変換
 if($SETTING['BBS_UNICODE'] == "change"){
 	$_POST['subject'] = preg_replace("/\&\#\d+\;/", "？", $_POST['subject']);
