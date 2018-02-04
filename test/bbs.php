@@ -46,8 +46,6 @@ require $PATH.'config.php';
 #====================================================
 #　入力情報を取得（ＰＯＳＴ）
 #====================================================
-$MANGAZ = "【広告】赤松健作品の漫画が無料で読める！無料漫画はマンガ図書館Z！<br>https://www.mangaz.com/";
-$AOZORA = "【広告】あの文豪作品が無料で読める！無料小説は青空文庫！<br>http://www.aozora.gr.jp/";
 if ($_SERVER['REQUEST_METHOD'] != 'POST') DispError ("ＥＲＲＯＲ！","ＥＲＲＯＲ：不正な投稿です！");
 if (get_magic_quotes_gpc()) $_POST = array_map("stripslashes", $_POST);
 $_POST['subject'] = str_replace('"', "&quot;", $_POST['subject']);
@@ -68,13 +66,20 @@ $_POST['MESSAGE'] = str_replace(">", "&gt;", $_POST['MESSAGE']);
 $_POST['MESSAGE'] = str_replace(array("\r\n","\r","\n"), " <br> ", $_POST['MESSAGE']);
 //本文の一部を置換したい場合この下にどうぞ。
 //$_POST['MESSAGE'] = str_replace("死ね", "氏ね", $_POST['MESSAGE']);
-//(2018/1/29)いくつか例を追加
-$_POST['MESSAGE'] = str_replace("漫画村", $MANGAZ, $_POST['MESSAGE']);
-$_POST['MESSAGE'] = str_replace("http://mangamura.org", $MANGAZ, $_POST['MESSAGE']);
-$_POST['MESSAGE'] = str_replace("https://mangamura.org", $MANGAZ, $_POST['MESSAGE']);
-$_POST['MESSAGE'] = str_replace("mangamura.org", $MANGAZ, $_POST['MESSAGE']);
-$_POST['MESSAGE'] = str_replace("フリーブックス", $AOZORA, $_POST['MESSAGE']);
-$_POST['MESSAGE'] = str_replace("Freebooks", $AOZORA, $_POST['MESSAGE']);
+#====================================================
+#　置換（REPLACE）
+#====================================================
+$tmp_rep=$PATH."Replace.cgi"; 
+if (is_file($tmp_rep)) { 
+	$fp = fopen($tmp_rep , "r"); 
+	while ($REPdata = fgets($fp, 1024)){
+		$tmp = rtrim($REPdata);
+		list($moto,$saki) = explode("<>", $REPdata);
+		$_POST['MESSAGE'] = str_replace($moto, $saki, $_POST['MESSAGE']); 
+	} 
+	// NGWordを追加できました。
+}
+
 # ユニコード変換
 if($SETTING['BBS_UNICODE'] == "change"){
 	$_POST['subject'] = preg_replace("/\&\#\d+\;/", "？", $_POST['subject']);
@@ -144,18 +149,26 @@ if (is_file($PATH."uerror.cgi")){
 #　NGワード
 #====================================================
 $chinochan="<br>.　　　　　 　 /　　　　　　　　　　ヽ　＼＿　 ＼　　　　　::,<br>　　　 　 　 /　　/　 　 　 |　　　　 iﾊ　 ＼＼｢|∨　　　　 ::,<br>　　　　　　,:　　 ; 　 : :　　|　　　　 i八　　 ＼ ＼V: .　　　 ::, 　 ／￣￣＼<br>　 　 　 　 |:　　 |　 : i: :　 |　　　　 |／＼ :ハ|｣＼〉: : .　　　::,<br>　 　 　 　 |:　　 |　 : |: :ｉ:八| :　　　| 二斗糸ﾐ　: : :ﾏ⌒: .　　::,│　　 ：<br>　 　 　 　 ｉ : |　j| 　 : : |: :八|: :　　|　ィしrハ∨ : : :i:　 | : .　八|　 　 お<br>　　　　 　 i <|　ﾊ ｰ:七Ν :八:.: :ｉ :|　 乂.::ソ　 　 : :i_,ノ : : . 　 |　 　 兄<br>.　 　 　 　 i; :|　| |、: i: i斗糸ﾐ＼|八　　 ////| : : ｉ.:|.: : : : : : . .|　　　ち<br>　　　　 　 八|　|＼> ｉ/ハJrハ　　 　 　 　 u | : : ｉ.:| |＼ : : : : | 　 　 ゃ<br>　 ／￣￣＼ 　|ﾄ∧ :{＼ 乂:ソ　 '　 _　 　 　 | : : ｉ.:| |｀ﾞｱ＞‐､|　　　ん<br>　　　　　　　 Ｖ八 ∧:∨ｉト､//　　　ヽ _）　　 | : /|人∨/　 　 |　　　の<br>　　　　へ　　　　 ＼ :､: j｛ヽゝ　..,,_＿___,,.xく丿/:厶イ）＼ 　 八<br>　　　　ん　　 |　　　∨＼ﾊ　＼ヽ｝ ∨{｛　 ｛∨　 | 　｛｛　 　 　 ＼＿＿／<br>　　　　た　　│　　　 ＼: ∧＼　｀　 ∨{｛　乂 　 |　　｛｛.　　　 　 ∨//<br>　|　　 .い　　 |.　　 　 　 ＼{＼　　　　}ヽ{｛∧＿,厶 --｛｛　　　　　 ∨/<br>　|　　　　　　│　　　　　 　 　 |＼_,／ 　{｛／::::::::::::＼__{∧　 | 　 　 ∨/<br>　　　　　　　　 　 　 　 　 　 　 |: :〈　　　└＼::::::::::::::::::::o::: ＼|　　　　∨<br>　 ＼＿＿_／　　　　　　　　　 |: :∧___,,. 　　´＼o::::::::::::::::::::::人<br>　　　　　　　 　　 　 　 　 　 　 |: :|　∨　　　ｰ=ﾆ＞､:::::::::::::::::o:::＼";
-$tmp=$PATH."NGWord.txt"; 
-if(is_file($tmp)) { 
-$IN=file($tmp); 
-foreach($IN as $tmp) { 
-	$tmp=chop($tmp,"\n\r"); 
-	if(stripos($_POST['MESSAGE'],$tmp)!==false) DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(NGWORD='".$tmp."')" . $chinochan); 
-	if(stripos($_POST['FROM'],$tmp)!==false) DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(".$tmp.")" . $chinochan); 
-	if(stripos($_POST['mail'],$tmp)!==false) DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(".$tmp.")" . $chinochan); 
+$tmp_ngw=$PATH."NGWord.cgi"; 
+if (is_file($tmp_ngw)) { 
+	$NGWordfp = fopen($tmp , "r"); 
+	while ($NG_data = fgets($NGWordfp, 1024)){
+		$tmp = rtrim($NG_data);
+		if(stripos($_POST['MESSAGE'],$tmp)!==false) {
+			DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(NGWORD='".$tmp."')" . $chinochan);
+		} 
+		if(stripos($_POST['subject'],$tmp)!==false) {
+			DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(NGWORD='".$tmp."')" . $chinochan);
+		} 
+		if(stripos($_POST['FROM'],$tmp)!==false) {
+			DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(NGWORD='".$tmp."')" . $chinochan);
+		} 
+		if(stripos($_POST['mail'],$tmp)!==false) {
+			DispError("ＥＲＲＯＲ！","ＥＲＲＯＲ：ＮＧワード禁止！！！(NGWORD='".$tmp."')" . $chinochan); 
+		}
 	} 
-	// なお、サブジェクト名にNGWordを追加するのは不可能のようです。
-} 
-
+	// subjectにNGWordを追加できました。
+}
 #====================================================
 #　新規スレッド画面
 #====================================================
@@ -425,6 +438,7 @@ if (!$_POST['FROM']) {
 		}else{
 			//それ以外の場合は時間に応じた名無しを表示
 			$HOUR = date($HOURMODE);
+			echo $HOUR;
 			$Nanashi = $NanashiArray[$HOUR];
 		}
 	$_POST['FROM'] = $Nanashi;
